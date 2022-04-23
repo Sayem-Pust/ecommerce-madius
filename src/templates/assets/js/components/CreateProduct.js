@@ -14,6 +14,7 @@ const CreateProduct = (props) => {
             tags: []
         }
     ])
+    console.log(productVariants)
     console.log(typeof props.variants)
     // handle click event of the Add button
     const handleAddClick = () => {
@@ -78,6 +79,9 @@ const CreateProduct = (props) => {
     let saveProduct = (event) => {
         event.preventDefault();
         // TODO : write your code here to save the product
+        console.log(productVariantPrices)
+        console.log(productVariants);
+
     }
 
 
@@ -215,7 +219,7 @@ const CreateProduct = (props) => {
                     </div>
                 </div>
 
-                <button type="button" onClick={saveProduct} className="btn btn-lg btn-primary">Save</button>
+                <button type="submit" onClick={saveProduct} className="btn btn-lg btn-primary">Save</button>
                 <button type="button" className="btn btn-secondary btn-lg">Cancel</button>
             </section>
         </div>
