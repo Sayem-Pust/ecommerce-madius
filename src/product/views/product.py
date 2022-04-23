@@ -1,9 +1,41 @@
-from pydoc import render_doc
 from django.views import generic
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
-from product.models import Variant, Product
+from product.models import Variant, Product, ProductVariant
+
+class ProductCreateApiView(APIView):
+
+    def post(self, request):
+        print(request.data)
+        # productName = request.data.get('productName')
+        # productSKU = request.data.get('productSKU')
+        # description = request.data.get('description')
+        product = Product.objects.create(
+            title=productName, sku=productSKU, description=description)
+        productVariants = request.data.get('productVariants')
+        for i in productVariants:
+            # print(i)
+            varient = Variant.objects.filter(id=i['option']).first()
+            print(Variant.objects.filter(id=i['option']))
+            for j in i['tags']:
+                print(j)
+                product_variant = ProductVariant.objects.create(
+                    variant_title=j,
+                    variant=varient,
+                    product=product
+                )
+                
+        # productVariantPrices = request.data.get('productVariantPrices')
+
+        # product = Product.objects.create(
+        #     title=productName, sku=productSKU, description=description)
+        return Response("created")
+
+        
+        
 
 def is_valid_queryparam(param):
     return param != '' and param is not None
