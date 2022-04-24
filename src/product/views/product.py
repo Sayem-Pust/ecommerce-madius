@@ -6,13 +6,14 @@ from rest_framework.response import Response
 
 from product.models import Variant, Product, ProductVariant
 
+
 class ProductCreateApiView(APIView):
 
     def post(self, request):
         print(request.data)
-        # productName = request.data.get('productName')
-        # productSKU = request.data.get('productSKU')
-        # description = request.data.get('description')
+        productName = request.data.get('productName')
+        productSKU = request.data.get('productSKU')
+        description = request.data.get('description')
         product = Product.objects.create(
             title=productName, sku=productSKU, description=description)
         productVariants = request.data.get('productVariants')
@@ -27,18 +28,17 @@ class ProductCreateApiView(APIView):
                     variant=varient,
                     product=product
                 )
-                
+
         # productVariantPrices = request.data.get('productVariantPrices')
 
         # product = Product.objects.create(
         #     title=productName, sku=productSKU, description=description)
         return Response("created")
 
-        
-        
 
 def is_valid_queryparam(param):
     return param != '' and param is not None
+
 
 class CreateProductView(generic.TemplateView):
     template_name = 'products/create.html'
@@ -71,7 +71,6 @@ def ProductList(request):
     return render(request, "products/list.html", context)
 
 
-
 def SearchProduct(request):
     qs = Product.objects.all()
     variant = Variant.objects.all()
@@ -97,7 +96,6 @@ def SearchProduct(request):
     if is_valid_queryparam(date):
         qs = qs.filter(created_at=date)
 
-
     context = {
         "products": qs.distinct(),
         "variant": variant
@@ -107,4 +105,3 @@ def SearchProduct(request):
 
 def EditProducts(request, pk):
     return render(request, "products/list.html")
-
